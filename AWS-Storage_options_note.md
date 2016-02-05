@@ -76,3 +76,59 @@ _Anti-Patterns_
 - Backup and archival storage — Data that requires long-term encrypted archival storage with infrequent read access may be stored more cost-effectively in _Amazon Glacier_.
 - Dynamic hosting—While Amazon S3 is ideal for websites with only static content, dynamic websites that depend on database interaction or use server-side scriptingshould be hosted on Amazon EC2.
 
+
+##Glacier
+
+- an extremely low-cost storage service, highly secure, durable, and flexible for _data backup and archival_.
+- $0.01 per gigabyte per month
+- customer don't need to worry about :
+    - capacity planning
+    - hardware provisioning
+    - data replication
+    - hardware failure detection and repair
+    - time-consuming hardware migrations
+- stire data ub Gkacuer as arcguvers
+- organize your archivers in vaults, access control useing AWS Identity and Access Management servier(IAM)
+- designed for use with other AWS services
+- seamlessly move data between S3 and Glacier using _data lifecycle policies_
+- can also use _AWS Import/Export_ to accelerate moving large amounts of data into Glacier using portable storage devices for transport
+
+__Ideal Usage Patterns__
+- archiving offsite enterprise information,media assets, research and scientific data, digital perservation and magnetic tape replacement
+
+__Performance__
+- low-cost
+- for data infrequently accessed and long lived
+- jobs typically complete in 3 to 5 hours
+
+__Durability and Availability__
+- 99.999999999%(11 nines) per year period durability
+- redundantly in multiple facilities
+- on multiple devices within each facility
+- data integrity checks is regualr, systematic, and automatically self-healing
+
+__Cost Model__
+- pay for what you use and no minimum fee
+- storage(/GB/Month)
+- data tranfer out(/GB/Month)
+- requests(per thousand UPLOAD and RETRIEVAL requests per month)
+- you can retrieve up to 5% of your average monthly storage(pro-rated daily) for free each month. if you choose to retrieve more than this amount of data in a month, you are charged an additional(per GB) retrueval fee. there is also a pro-rated cjarge(per GB) for items deleted prior to 90 days.
+
+__Scalability and Elasticity__
+- scales to meet your growing and often _unperdictable_ storage requirements.
+- A single archive is limited to 4TB
+- no limit to the total amount of data you can store in the service
+
+__Infterfaces__
+- Glacier APIs provide both management and data operations
+- native, standards-based REST web service interface, as well as Java and .NET SDKs.
+    - the AWS managemant console or Glacier API can be used to _create oraganize the archives in Glacier_. API can upload and retrieve archives, monitor the status of your jobs and also configure your vault to send you a notification via SNS when you jobs complete.
+- can used as a storage class in S3 by using object lifecycle management to provide automatic, policy-driven atchiving from S3 to Glacier
+- Using Glacier as a storage class in S3, you use the S3 APIs
+- Using "native" Glacier, you use the Glacier APIs
+- Objects archived to Glacier via S3 can only be listed and retrieved via the S3 APIs or the AWS management console ( they are not visible as archives in an Glacier vault)
+
+__Anti-Patterns__
+- Rapidly changing data - Data that must be updated very frequently might be better served by a storage solution with lower read/write latencies, such as Amazon EBS or a database.
+- Real time access—Data stored in Amazon Glacier is not available in real time. Retrieval jobs typically require 3-5 hours to complete, so if you need immediate access to your data, Amazon S3 is a better choice.
+
