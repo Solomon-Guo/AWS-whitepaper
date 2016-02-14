@@ -133,6 +133,52 @@ __Anti-Patterns__
 - Real time access—Data stored in Amazon Glacier is not available in real time. Retrieval jobs typically require 3-5 hours to complete, so if you need immediate access to your data, Amazon S3 is a better choice.
 
 
+## EBS
+provides durable block-level storage for use with EC2
+- off-instance
+- network-attached storage(NAS)
+- persistes independently from the running life of a single EC2 instance
+- like a physical hard drive
+- use EBS volume to boot an EC2 instance( EBS-root AMIs only)
+- attach multiple EBS volumes to a single EC2 instance
+- attache to only one EC2 at any point in time
+- create point-in-time snapshots of volumes, which are persisted to S3
+- snapshots can be used as the starting point for new EBS volume, and to protect data for long-term durability
+- snapshot can be used to instantate as many volumes as you wish
+- snapshot can be copied _across AWS regions_, for geographical expansion, data center migration and disaster recovery
+- EBS volumes range from 1 GB to 1 TB, and are allocated in 1 GB increments
+
+__Ideal Usage Patterns__
+- for data that changes relatively frequently and requires long-term persistence
+- particaularly well-suited for use as the primary storage for a database or file system, or access to raw block-level storage
+- providesed IOPS volumes are particularly well-suited from use with database application that require a high and consistent rate of random disk reads and writes
+
+__Performance__
+- Standard volumes and Provisioned OPS volumes. They differ in performance characteristics and pricing model
+- Standard volumes:
+    - offer cost effective storage for moderate or bursty I/O requirements.
+    - designed to deliver approximately 100 I/O operations per second(IOPS)
+    - well-suited for use as boot volumes, burst capability at start-up times.
+- Provisioned IOPS volumes:
+    - feliver perdictable, high performance for I/O intensive workoads such as databases
+    - specify an IOPS tate when ctrating a volume, and then EBS provisons that rate for the lfetime of the volume
+    - up tp 2,000 IOPS per Provisioned IOPS volume
+    - stripe multiple volumes together to feliver thousandsof IOPS per EC2
+- EBS volumes are NAS device, network I/O performed intensived
+- fully utilize the Provisioned IOPS on an EBS volumes:
+    - selected EC2 instance types as EBS-optimized instances
+    - deliver dedicateed throughput between EC2 and EBS
+    - options between 500 Mbps and 1,000 Mbps depending on the instance type
+    - deliver within 10% of the Provisioned IOPS performance 99.9% of the time
+
+__Durability and Availability__
+- EBS volumes data is replicated across _multiple servers in a single AZ_ to prevent the loss of data from the failure of any single component
+- durability depend on both the size of volume and data that changed since last snapshot
+    - 20GB or less of modified data since most recent snapshot can expect _an annual failure rate(AFR) between 0.1% and 0.5%_
+    - more that n20GB of unmodified data since last snapshot _expect higher failure rates that are roughly proportional to the increase in modified data_
+
+
+
 ##AWS Import/Export
 accelerates moving large amounts of data into and out of AWS using portable storage devices for transport.
 - using A,azon's high-speed internal network
