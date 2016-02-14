@@ -182,3 +182,21 @@ __Interfaces__
 
 __Anti-Patterns__
 - not suit for sunply data that is more easily trasferred over the Internet
+
+
+##AWS Storage Gateway##
+connects an on-premises software appliance with cloud-based storage to provide seamless and secure intrgaration between an oranization's on-permises IT environment and AWS's storage infrastructure.
+- securely store dat a tothe AWS cloud for scalable and cost-effective storage
+- supports industry-standard storage protocoles
+- provides low-lateency performance by maintaining frequently access
+- serve as a cloud-hosted solution, together with EC2, that mirrors your entire production environment
+- create either gateway-cached or gateway-stored volumes that can be mounted as iSCSI devices by your on-permises applications
+- _Gateway-cached_ volumes allow you to utilize S3 for your primary data, while reretaining some portion of it locally in a cache for frequently accessed data.
+    - minimize the need to scale your on-premises storage infrastructure, orivudubg your applications with low-lateency access to access data
+    - sotage volumes up tp 32TB and mount them as iSCSI from on-permises application servers
+    - Data written to these volumes is stored in S3, with only a cache of recently written and recently read data stored locally on-permises storage hard ware.
+- _Gateway-stored_ stored your primary data locally, while asynchronously backing up that data to AWS
+    - providing durable, off-site backups
+    - volumes up to 1TB and mount as iSCSI devices
+    - Date written to gateway-stored volumes is stored on-permises storage hardware, and asynchronously backed up tp S3 in the from of EBS snapshots
+- Take care the differ between them, one is cached, for utilize on-permises storage. Anthoer is stored, using for backup
