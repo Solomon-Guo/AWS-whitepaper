@@ -132,3 +132,53 @@ __Anti-Patterns__
 - Rapidly changing data - Data that must be updated very frequently might be better served by a storage solution with lower read/write latencies, such as Amazon EBS or a database.
 - Real time access—Data stored in Amazon Glacier is not available in real time. Retrieval jobs typically require 3-5 hours to complete, so if you need immediate access to your data, Amazon S3 is a better choice.
 
+
+##AWS Import/Export
+accelerates moving large amounts of data into and out of AWS using portable storage devices for transport.
+- using A,azon's high-speed internal network
+- bypassing the Internet
+- supoorts importing and exporting for EBS snapshots, S3 buckets, and Glacier vaults
+
+__Ideal Usage Patterns__
+- In general, if loading your data over the Internet would take a week or more, you should consider using AWS import/export
+- initial data upload to AWS
+- content distribution
+- regular data interchange ti/from your customers or business associates
+- transfer to S3 or Glacier for off-site backup and archival storage
+- quick retrieval of large backups from S3 or Glacier for disaster revocery
+
+__Performance__
+- each AWS Import/Export station is capable of loading data at over 100MB oer second
+- unoist cases the rate of the data load will be bounded by a combination of the read or wirte speed of your protable storage device and, for S3 data loads the average obkect(file) size
+
+__durability and Availabiliry__
+99.999999999%(11 nines) durability. becuase data is import to EBS snapshots, S3, Galcier
+
+__Cost model__
+- you pay only for what you use
+- pricing components
+    - a oer-devices fee
+    - a data load time charge(per data-loading-hour)
+    - possible return shipping charges
+    - For the destination storage(EBS Snapshot, S3, and Glacier)
+
+__Scalbility and Elasricity__
+- limited only by the capacity of the devices that you send to AWS
+    - S3: 5TB per object
+    - Glacier: 4TB per single archive
+    - the aggreate total amount of data the can be imported is virtually unlimited
+    - Only limited for per object/file, total capacity is not limited
+
+__Interfaces__
+- submit an AWS Import/Export job for each storage device shipped
+- each job request requires a manifest file, a YAML-formatted text file that contains a set of key-value paire that supply the required information
+    - your device ID
+    - secret access key
+    - return address
+- job can be created using a command line tool, SDK, or a mative REST API
+- the job request is tied to the storage device through a signature file
+    - in the root directory(S3)
+    - by a barcode taped to the device(EBS and Galcier)
+
+__Anti-Patterns__
+- not suit for sunply data that is more easily trasferred over the Internet
