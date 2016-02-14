@@ -176,6 +176,60 @@ __Durability and Availability__
 - durability depend on both the size of volume and data that changed since last snapshot
     - 20GB or less of modified data since most recent snapshot can expect _an annual failure rate(AFR) between 0.1% and 0.5%_
     - more that n20GB of unmodified data since last snapshot _expect higher failure rates that are roughly proportional to the increase in modified data_
+- frequently create snapshots of EBS volumes to maximize both durability and availability
+- available cross AZs in a region
+- EBS snapshots can also be copied from one region to another, and easily be shared with other user accounts
+- easy-to-use disk clone or disk image mechanism for backup, sharing, and disaster recovery
+
+__Cost Model__
+3 components:
+- provisioned storage
+- I/O request
+- snapshot storage
+
+EBS standard volumes:
+    - per GB-month
+    - per million I/O requests
+EBS Provisioned IOPS volumes:
+    - per GB-month
+    - per Provisioned IOPS-month
+for both:
+    - snapshots are charged per GB-month
+    - EBS snapshot copy is charged for the data transfered between regions
+    - the standard EBS snapshots chatges in the destination region
+    - *for EBS volumes, you are charged for _provisoned(allocated)_ storage, whether or not actually use it*
+    - *for EBS snapshots, you are charged only for _actually used(consumed)_*
+    - snapshots are incremental and compressed, so generally, snapshot is much less than volumes consumed
+    - _no charge_ for transferring information among the various AWS storage offerings
+
+__Scalability and Elasticity__
+- using console or APIs, EBS volumes can seasily and rapidly be provisioned and released to scale in and out with your totoal storage demands
+- EBS volumes resized:
+    - create and attach a new EBS volume and using it together with existing ones
+    - expand the size of a single EBS volume by using a snapshot:
+        1. detach the original EBS volume
+        2. create a snapshot and store into S3
+        3. create a new EBS volume from the snapshot, but specify a larger size than the original volume
+        4. attach the new, lager volume to instance in place of the original
+        5. an OS-level utility must also be used to expand the file system
+        6. Delete the original EBS volume
+
+__Interfaces__
+- API in both SOAP and REST formats
+- create, delete, describe, attach, and detach volumes for instances
+- create, delete, and describe snapshots from EBS to S3
+- copy snapshots from one region to anoter
+- Management console also
+- no AWS data API for EBS
+- instrad, EBS presents a block-device infterface to EC2 instance, like local disk drive
+
+__Anti-Patterns__
+EBS using to persisted beyond the life of a single EC2 instance
+not for
+- Temporary storage: such as scratch disks, buffers, queues, and caches, consider using local instance store volumes, SQS or ElastiCache(Memcached or Redis)
+- highly-durable storage: use S3 or Glacier
+- Static data or web content: use S3
+
 
 
 
