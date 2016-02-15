@@ -356,4 +356,40 @@ connects an on-premises software appliance with cloud-based storage to provide s
 - Take care the differ between them, one is cached, for utilize on-permises storage. Anthoer is stored, using for backup
 
 ###Ideal Usage Patterns
+- corporate file sharing
+- enabling existing on-permsises backup store on S3
+- disaster recovery
+- data mirroring to cloud-based compute resources
 
+###Performance
+- soeed and confiuration of your underlying local disks
+- the network bandwidth between your iSCSI initiator and gateway VM
+- the amount of local storage allocated to the gateway VM
+- the bandwidth between the gateway VM and S3
+- for gateway cached volumes,it's important that you provide enough local cache storage to store your recently accessed data
+- (heavy depend) your internet bandwidth to speed up the upload of your on-premises application data to AWS
+- _Only uploads data htat has changed_
+
+###Durability and Availability
+- on-permises data upload ti S3, so depend on S3, check S3 setion for detail
+
+###Cost model
+4 pricing components:
+- gateway usage(per gateway per month)
+- snapshot storage usage(per GB per month)
+- volume storage usage(per GB per month)
+- data transfer out(oer GB per month)
+
+###Scalability and Elasticity
+- in both gateway-cached and gateway-stored volume configurations, AWS Storage Gateway stores data in S3(scalability and elasticity automatically)
+- 所以Storage gateway严重依赖S3
+
+###Interfaces
+- Console can be use to download Storage Gateway VM image
+- select between a gateway-cached or gateway-stored configuration
+- Allocate local storage to your installed on permises gateway from direct attached storage(DAS),NAS, or SAN
+- Activate your on-permises by associating your gateway's IP address with your AWS account and select an AWS region for your gateway to store uploaded data
+- Use the Console to create AWS storage Gateway volumes and attach these volumes as iSCSI devices to your on-permises application servers
+
+###Anti-Patterns
+- Database storage: EC2 and EBS volumes are a natural choice for database storage and workloads
