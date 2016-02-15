@@ -31,7 +31,7 @@ Each of these traditional storage options differs in performace, durability, and
 _Ideal Usage Patterns_
 - storage and distribution of static web content and media.
 - each object has a unique HTTP URL
-- serve as an __origin store__ for a CND, such as CloudFront.
+- serve as an ###origin store### for a CND, such as CloudFront.
 - No storage provisioning is required, works well for fast growing website hosting data intensive
 - as a data store for computation and large-scale analytics
 - as a highly durable, scalable, and secure solution for backup and archival of critical data, and to provide disaster recovery solutions
@@ -93,33 +93,33 @@ _Anti-Patterns_
 - seamlessly move data between S3 and Glacier using _data lifecycle policies_
 - can also use _AWS Import/Export_ to accelerate moving large amounts of data into Glacier using portable storage devices for transport
 
-__Ideal Usage Patterns__
+###Ideal Usage Patterns###
 - archiving offsite enterprise information,media assets, research and scientific data, digital perservation and magnetic tape replacement
 
-__Performance__
+###Performance###
 - low-cost
 - for data infrequently accessed and long lived
 - jobs typically complete in 3 to 5 hours
 
-__Durability and Availability__
+###Durability and Availability###
 - 99.999999999%(11 nines) per year period durability
 - redundantly in multiple facilities
 - on multiple devices within each facility
 - data integrity checks is regualr, systematic, and automatically self-healing
 
-__Cost Model__
+###Cost Model###
 - pay for what you use and no minimum fee
 - storage(/GB/Month)
 - data tranfer out(/GB/Month)
 - requests(per thousand UPLOAD and RETRIEVAL requests per month)
 - you can retrieve up to 5% of your average monthly storage(pro-rated daily) for free each month. if you choose to retrieve more than this amount of data in a month, you are charged an additional(per GB) retrueval fee. there is also a pro-rated cjarge(per GB) for items deleted prior to 90 days.
 
-__Scalability and Elasticity__
+###Scalability and Elasticity###
 - scales to meet your growing and often _unperdictable_ storage requirements.
 - A single archive is limited to 4TB
 - no limit to the total amount of data you can store in the service
 
-__Infterfaces__
+###Infterfaces###
 - Glacier APIs provide both management and data operations
 - native, standards-based REST web service interface, as well as Java and .NET SDKs.
     - the AWS managemant console or Glacier API can be used to _create oraganize the archives in Glacier_. API can upload and retrieve archives, monitor the status of your jobs and also configure your vault to send you a notification via SNS when you jobs complete.
@@ -128,7 +128,7 @@ __Infterfaces__
 - Using "native" Glacier, you use the Glacier APIs
 - Objects archived to Glacier via S3 can only be listed and retrieved via the S3 APIs or the AWS management console ( they are not visible as archives in an Glacier vault)
 
-__Anti-Patterns__
+###Anti-Patterns###
 - Rapidly changing data - Data that must be updated very frequently might be better served by a storage solution with lower read/write latencies, such as Amazon EBS or a database.
 - Real time access—Data stored in Amazon Glacier is not available in real time. Retrieval jobs typically require 3-5 hours to complete, so if you need immediate access to your data, Amazon S3 is a better choice.
 
@@ -148,12 +148,12 @@ provides durable block-level storage for use with EC2
 - snapshot can be copied _across AWS regions_, for geographical expansion, data center migration and disaster recovery
 - EBS volumes range from 1 GB to 1 TB, and are allocated in 1 GB increments
 
-__Ideal Usage Patterns__
+###Ideal Usage Patterns###
 - for data that changes relatively frequently and requires long-term persistence
 - particaularly well-suited for use as the primary storage for a database or file system, or access to raw block-level storage
 - providesed IOPS volumes are particularly well-suited from use with database application that require a high and consistent rate of random disk reads and writes
 
-__Performance__
+###Performance###
 - Standard volumes and Provisioned OPS volumes. They differ in performance characteristics and pricing model
 - Standard volumes:
     - offer cost effective storage for moderate or bursty I/O requirements.
@@ -171,7 +171,7 @@ __Performance__
     - options between 500 Mbps and 1,000 Mbps depending on the instance type
     - deliver within 10% of the Provisioned IOPS performance 99.9% of the time
 
-__Durability and Availability__
+###Durability and Availability###
 - EBS volumes data is replicated across _multiple servers in a single AZ_ to prevent the loss of data from the failure of any single component
 - durability depend on both the size of volume and data that changed since last snapshot
     - 20GB or less of modified data since most recent snapshot can expect _an annual failure rate(AFR) between 0.1% and 0.5%_
@@ -181,7 +181,7 @@ __Durability and Availability__
 - EBS snapshots can also be copied from one region to another, and easily be shared with other user accounts
 - easy-to-use disk clone or disk image mechanism for backup, sharing, and disaster recovery
 
-__Cost Model__
+###Cost Model###
 3 components:
 - provisioned storage
 - I/O request
@@ -202,7 +202,7 @@ for both:
     - snapshots are incremental and compressed, so generally, snapshot is much less than volumes consumed
     - _no charge_ for transferring information among the various AWS storage offerings
 
-__Scalability and Elasticity__
+###Scalability and Elasticity###
 - using console or APIs, EBS volumes can seasily and rapidly be provisioned and released to scale in and out with your totoal storage demands
 - EBS volumes resized:
     - create and attach a new EBS volume and using it together with existing ones
@@ -214,7 +214,7 @@ __Scalability and Elasticity__
         5. an OS-level utility must also be used to expand the file system
         6. Delete the original EBS volume
 
-__Interfaces__
+###Interfaces###
 - API in both SOAP and REST formats
 - create, delete, describe, attach, and detach volumes for instances
 - create, delete, and describe snapshots from EBS to S3
@@ -223,7 +223,7 @@ __Interfaces__
 - no AWS data API for EBS
 - instrad, EBS presents a block-device infterface to EC2 instance, like local disk drive
 
-__Anti-Patterns__
+###Anti-Patterns###
 EBS using to persisted beyond the life of a single EC2 instance
 not for
 - Temporary storage: such as scratch disks, buffers, queues, and caches, consider using local instance store volumes, SQS or ElastiCache(Memcached or Redis)
@@ -231,7 +231,61 @@ not for
 - Static data or web content: use S3
 
 
+##EC2 instance store volumes
+- also called ephemeral(short life) drivers, provide temporary block-level storage for many instance tupes.
+- perconfigured and pre-attached block of disk storage
+- varies by EC2 instance type
+- large instances tend to provide both more and larger instance store volumes
+- some instance types only EBS storage only(t1)
+- in addition, the storage-optimized EC2 instance family provides special-purpose instance storage targeted to specific use cases
+    - HI1 provide very fast solid-state drive(SSD)-backed instance for over 120,000 random read IOPS, and are optimized for very high random I/O performance and low cost per IOPS
+    - HS1 for very high storage density, low storage cost, and high storage density, low storage cost, and high sequential I/O performance.
 
+###Ideal Usage Patterns###
+- local instace store volumes are ideal for temporary storage of inforomation that is continually changing
+    - buffers
+    - caches
+    - scratch data
+    - other temporary content
+    - data replicated across a fleet of instances, such as a load-balanced pool of web server
+    - boot device
+- cannot be detached or attached to another instance
+- High I/O instances provide instance store volumes backed by SSD, and are ideally suited for many high performance database workloads
+
+###Performance###
+- non-SSD-based instance store works like physical hard disk
+- To increase aggregate IOPS, or to improve sequential disk throughput, multiple volumes can be grouped together using RAID 0 ( disk striping) software.
+- High I/O Instances 10K to 100K low-latency, random 4KB random IOPS
+- High Storage Instances delivering 2.6GB/sec of sequential read and write performance when using a block size of 2MB
+
+###Durability and Availability###
+- EC2 lical instance store volumes are _not intended to be used as durable disk storage._
+- persists only during the lilfe of the associate EC2 instance
+- data on instance store volumes is _persistent across orderly instance reboot_
+- stopped, re-started, terminates, or fails, all data on the instance store volumes is _LOST_.
+
+###Cost Model
+- any local instance store volumes, if the instance tupe provides them
+- no additional charge for data storage on local instance store volumes
+- data transferred to and from EC2 instance store volumes from other AZ or outside of an EV2 region may incur data transfer charge(In or out AZ/Region may charge)
+
+###Scalability and Elasticity
+- number and storage capacity of EC2 local instance store volumes are fixed and defined by the instance type
+- you can't increase or decrease the number of instance store volumes on a single EC2 instance
+- use S3 or EBS
+
+###Interfaces
+- no separate management API for EC2 instance store volume
+- using the block device mapping feature of the EC2 API and Console
+- cannot create or destroy, but can control whether or not they are exposed to the instance, and what device name is used
+- no separate management API for instance store volumes
+- like EBS volume, like local hard disk
+
+###Anti-Patterns
+- persistent storage
+- relational database storage
+- shared storage: dedicated to a single EC2 instance, and cannot be shared with other systems or users
+- Snapshots
 
 ##AWS Import/Export
 accelerates moving large amounts of data into and out of AWS using portable storage devices for transport.
@@ -239,7 +293,7 @@ accelerates moving large amounts of data into and out of AWS using portable stor
 - bypassing the Internet
 - supoorts importing and exporting for EBS snapshots, S3 buckets, and Glacier vaults
 
-__Ideal Usage Patterns__
+###Ideal Usage Patterns###
 - In general, if loading your data over the Internet would take a week or more, you should consider using AWS import/export
 - initial data upload to AWS
 - content distribution
@@ -247,14 +301,14 @@ __Ideal Usage Patterns__
 - transfer to S3 or Glacier for off-site backup and archival storage
 - quick retrieval of large backups from S3 or Glacier for disaster revocery
 
-__Performance__
+###Performance###
 - each AWS Import/Export station is capable of loading data at over 100MB oer second
 - unoist cases the rate of the data load will be bounded by a combination of the read or wirte speed of your protable storage device and, for S3 data loads the average obkect(file) size
 
-__durability and Availabiliry__
+###durability and Availabiliry###
 99.999999999%(11 nines) durability. becuase data is import to EBS snapshots, S3, Galcier
 
-__Cost model__
+###Cost model###
 - you pay only for what you use
 - pricing components
     - a oer-devices fee
@@ -262,14 +316,14 @@ __Cost model__
     - possible return shipping charges
     - For the destination storage(EBS Snapshot, S3, and Glacier)
 
-__Scalbility and Elasricity__
+###Scalbility and Elasricity###
 - limited only by the capacity of the devices that you send to AWS
     - S3: 5TB per object
     - Glacier: 4TB per single archive
     - the aggreate total amount of data the can be imported is virtually unlimited
     - Only limited for per object/file, total capacity is not limited
 
-__Interfaces__
+###Interfaces###
 - submit an AWS Import/Export job for each storage device shipped
 - each job request requires a manifest file, a YAML-formatted text file that contains a set of key-value paire that supply the required information
     - your device ID
@@ -280,7 +334,7 @@ __Interfaces__
     - in the root directory(S3)
     - by a barcode taped to the device(EBS and Galcier)
 
-__Anti-Patterns__
+###Anti-Patterns###
 - not suit for sunply data that is more easily trasferred over the Internet
 
 
@@ -300,3 +354,6 @@ connects an on-premises software appliance with cloud-based storage to provide s
     - volumes up to 1TB and mount as iSCSI devices
     - Date written to gateway-stored volumes is stored on-permises storage hardware, and asynchronously backed up tp S3 in the from of EBS snapshots
 - Take care the differ between them, one is cached, for utilize on-permises storage. Anthoer is stored, using for backup
+
+###Ideal Usage Patterns
+
