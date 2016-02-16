@@ -393,3 +393,48 @@ connects an on-premises software appliance with cloud-based storage to provide s
 
 ###Anti-Patterns
 - Database storage: EC2 and EBS volumes are a natural choice for database storage and workloads
+
+
+##CloudFront
+- CDN is a web service for content delivery
+- your website's dynamic, static, and streaming content available from a global network of edge locations
+- supports all files that can be served onver HTTP
+- optimized to work with other AWS services
+
+###Ideal Usage Patterns
+- ideal for distribution fo frequently-accessed static content that benefites from edge deliverry
+- popular website images, videos, media files or software download
+- deliver dynamic web applications over HTTP
+- stream audio and video files to web browsers and mobile devices
+
+###Performance
+- designed for _low-lateency and high-bandwidth_ delivery of content
+- End users get both:
+    - lower latency: the time it takes to load the first byte of the object
+    - high sustained data transfer rates: to deliver popular objects to end user at scale
+
+###Durability and Availability
+- CDN is an edge cache, does not provide durable storage
+- provides high availability by using a distributed global network of edge locations
+- increased reliability and availability because there is no longer a central potin of failure
+- copies of your files are now held in edge locations around the world
+
+###Cost Model
+- no long-term contracts or required minimum monthly commitments
+- 2 pricing components:
+    - regional data transfer out(per GB)
+    - requests(per 10,000)
+- often cheaper(as well as faster) to deliver content from S3 through CloudFront rather than directly from S3
+
+###Scalability and Elasticity
+- seamless scalability and elasticity
+- the service automatically responds as demand increases or decreases without any intervention from you
+- CloudFront also uses multiple layers of caching at each edge location and collapses simultaneous request for the same object before contacting your origin server
+
+###Interfaces
+- Console
+- CloudFront API
+
+###Anti-PAtterns
+- Programmatic cache invalidation: while CloudFront supports cache invalidation, AWS recommends using object versioning rather than programmatic cache invalidation
+- Infrequently requested data
