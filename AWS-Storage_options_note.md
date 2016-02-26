@@ -438,3 +438,17 @@ connects an on-premises software appliance with cloud-based storage to provide s
 ###Anti-PAtterns
 - Programmatic cache invalidation: while CloudFront supports cache invalidation, AWS recommends using object versioning rather than programmatic cache invalidation
 - Infrequently requested data
+
+
+##Simple Queue Service(SQS)
+- reliable, highly scalable
+- hosted message queuing service
+- temporary storage
+- delivery of short(up to 64KB) text-based data message
+- a temporary dat repository for messages that are waiting for processing
+- supports a virtually unlimited number of queues and supports unordered, at-least-once delivery of messages
+
+###Ideal Usage Patterns
+- suited to multiple application components must communicate and coordinate their work in a loosely couple manner
+- in producer-consumer scenarios where some componets may work faster or slower than others
+- the number of interacting components changes with time or load
