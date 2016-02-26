@@ -452,3 +452,35 @@ connects an on-premises software appliance with cloud-based storage to provide s
 - suited to multiple application components must communicate and coordinate their work in a loosely couple manner
 - in producer-consumer scenarios where some componets may work faster or slower than others
 - the number of interacting components changes with time or load
+
+###Performance
+- a distributed queuing system that is optimized for horizontal scalability
+- not for single-threaded sending or receiving speeds
+- a single client can send or receive SQS messages at rate of about 5 to 5-50 message per second
+- can be achieved by requesting multiple messages( up to 10) in a single call
+
+###Durability and Availability
+- messages stored in SQS are highly durable but _temporary_.
+- all messages are stored redundantly across multiple servers amd DC
+- retention configurable on a per-queue basis, from one hour to 14 days
+
+###Cost Model
+- pay for what you use
+- provides 100,000 requests per month at no charge
+- beyond the free tier:
+    - priced per 10,000 requests
+    - amount of data transferred in and out (priced per GB per month)
+
+###Scalability and Elasticity
+- both highly elastic and massively scalabel
+- unlimited number of computers to read and write unlimited number of messages at any time
+- unlimited numbers of queues and messages per queue for any user
+
+###Interfaces
+- HTTP Query web services interface
+- SDK and APIs provides both management and data inferface
+
+###Anti-Patterns
+- _MUST_ Binary or large messages. otherwish store to RDS and store a pointer to the data in SQS
+- Long-term storage: SQS only stored 14 days
+- High-speed message queuing or very short tasks, use DynamoDB or a message-queuing system hosted on EC2
