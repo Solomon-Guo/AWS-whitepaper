@@ -447,6 +447,20 @@ connects an on-premises software appliance with cloud-based storage to provide s
 - delivery of short(up to 64KB) text-based data message
 - a temporary dat repository for messages that are waiting for processing
 - supports a virtually unlimited number of queues and supports unordered, at-least-once delivery of messages
+使用 Amazon SQS,您可以分离应用程序的组件以便其独立运行,Amazon SQS 同时还可以简化组件间
+的消息管理。分布式应用程序的任何组件均可将消息存储在拥有故障保护功能的队列中。消息可包含高达
+256 KB 的任何格式文本。任何组件均可在之后利用 Amazon SQS API 以编程方式检索消息。对于大于
+256 KB 的消息,可以通过使用 Amazon S3 来存储更大负载且适用于 Java 的 Amazon SQS 扩展客户端
+库进行管理。
+队列在产生并保存数据的组件以及接收数据进行处理的组件之间起到缓冲作用。这就意味着,如果产生消
+息的组件工作速度快于接收处理消息的组件,或如果产生消息的组件或接受处理消息的组件仅间歇性地连
+接到网络,队列可解决因此而产生的问题。
+Amazon SQS 确保每条消息至少传送一次,并且支持与同一队列交互的多个读取器和写入器。单个队列
+可由多个分布式应用程序组件同时使用,无需这些组件互相协作以共享队列。
+Amazon SQS 设计为始终可用并传送消息。因此而放弃的一项功能是不保证消息的先进先出传送。对许
+多分布式应用程序而言,每条消息均可独立存在,并且只要所有的消息得以传送,次序并不重要。如果您
+的系统要求保留次序,您可以在每条消息中放置序列信息,以便队列返回消息时将其重新排序。
+
 
 ###Ideal Usage Patterns
 - suited to multiple application components must communicate and coordinate their work in a loosely couple manner
@@ -484,3 +498,69 @@ connects an on-premises software appliance with cloud-based storage to provide s
 - _MUST_ Binary or large messages. otherwish store to RDS and store a pointer to the data in SQS
 - Long-term storage: SQS only stored 14 days
 - High-speed message queuing or very short tasks, use DynamoDB or a message-queuing system hosted on EC2
+
+
+##RDS
+- provides capabilities of MySql, Oracle, or MsSQL as a managed, cloud-based service
+- eliminates much pf the administrative overhead associated with launching, managing, and scaling your own relational database
+
+###Ideal Usage Patterns
+- Ideal for existing applications that rely on RDS database engines
+- offers full compatibility and direct access to native database engins
+- should work unmodified with RDS
+
+###Performance
+- a combination of configurable instances
+- running on Amazon's proven, world-class infrastructure with fully-automated maintenance and backup operations
+- Provisioned IOPS instance(1,000 - 30,000 IOPS, instance lifetime)
+
+###Durability and Availability
+- leverages EBS volumes as its data store
+- two types of database backups that are __replicated across multiple Availability Zones__:
+    - automated DB instance backups:
+        - full daily backup of your data during the specified backup windows
+        - also capture DB transaction logs
+        - no additional charge, can be retained for up to 8 days
+        - can be used to do a ponit-in-time restore
+        - any opint from the start of the retention period to about the last 5 mins from current time
+    - user-initiated database snapshots:
+        - can be created at any time
+        - kept until explicitly deleted
+        - allow you to restore your database to a known state
+- Multi-AZ deployment synchronously replicating your data between a primaru RDS instance and a standby instance in another ZA
+    - automatically failover to standy(typically takes about 3mins)
+    - is the built-in asynchronous replication provide by RDS read replicas, you can use either feature alone, or both in combination
+
+###Cost Model
+- size of the database instance
+- the deployment type(Single-AZ/Multi-AZ)
+- the AWS region
+- pricing for RDS is based on several factors:
+    - the DB instance hours(per hour)
+    - the amount of provisioned database storage(per GB-month adn per million I/O Requests)
+    - additional backup storage(per GB-month)
+    - data transfer in/out (per GB per month)
+
+###Scalability and Elasticity
+RDS resouces can be scaled elastically:
+    - database storage size
+    - database storage IOPS rate
+    - database instance compute capacity
+    - the number of read replicas
+
+- supports "pushbutton scaling" of both database storage and compute resources
+    - to scale RDS database storage elastically ,can be added either immediately or during the next maintenace windows
+    - to scaling computations resources from one DB instance tupe to another
+- also enables ou to scale out beyond the capacity of a single database deployment fro read-heavy database workloads by createing one or more read replicas
+- administrator may configure multiple RDS instance and leverage database partitioning or sharding to spread the workload over multiple DB instance
+
+###Interfaces
+- API
+- Console
+- no AWS data API for RDS, provide directly access
+
+###Anti-Patterns
+- Index and query-focused data: Many cloud-based solution don't require advanced features found in a relational database, such as joins and complex transaction. If more oriented toward indexing and querying data -> DynamoDB
+- Numeriys BLOBs: RDS support binary large objects(BLOBs), if your application makes heavy use of them(_audio files, cideos, images,and so on_), you may find S3
+- Other database platfroms: install on EC2 by yourself
+- Complete control: install on EC2 by yourself
