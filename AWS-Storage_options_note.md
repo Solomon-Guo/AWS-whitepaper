@@ -564,3 +564,54 @@ RDS resouces can be scaled elastically:
 - Numeriys BLOBs: RDS support binary large objects(BLOBs), if your application makes heavy use of them(_audio files, cideos, images,and so on_), you may find S3
 - Other database platfroms: install on EC2 by yourself
 - Complete control: install on EC2 by yourself
+
+
+##DynamoDB
+is a fast, fully-managed NoSQL database service that make it simple and cost-effective to store and retrieve any amount of data, and serve any level of request traffic.
+- structured data in tables
+- indexed by primary key
+- allow low-latency read and write
+- items ranging from 1byte up to 64KB
+- supporting 3 data types: number, string, and binary
+- in both scalar and multi-valued sets
+- Tables do not have fixed a schema, so each data item can have a different number of attributes
+- DynamoDB is integrated ith other services:
+    - EMR - analytics
+    - Redshift - data warehouse
+    - Data Pipeline - data import/export
+    - S3 - backup and archive
+
+###Ideal Usage Patterns
+flexible NoSQL database ,low read and write latencies, ability to scale storage and throughput up or down as needed without code changes or downtime
+
+###Performance
+- SSDs and limiting indexing on attributes provides high throughput and low latency (single-digit milliseconds typical for average server-side response times, and frastically reduces the cost of read and write operations
+- perdicatable performance can be archieved by defining the provisioned throughput capacity required fro a given table.
+
+###Durability and Availability
+- built-in fault tolerance that automatically and synchronously replicates data across three AZ in a region
+
+###Cost Model
+3 pricing components:
+    - provisioned throughput capacity (per hour)
+    - idnexed data storage (per GB per month)
+    - data transfer in or out (per GB per month)
+
+###Scalability and Elasticity
+- no limit to the aount of data you can store in an DynamoDB table
+- the service automatically allocates more storage as you store more data using the DynamoDB wrute APIs
+- Data is automatically partitioned and re-partitioned as needed
+- use of SSDs provides perdictable low-lateency resonse time at any scale
+- you can simply 'dial-up/down' the read and write capacity of a table as your needs change
+
+###Interfaces
+- low-level REST API
+- higher-level SDK
+- while standard SQL isn't available for DynamoDB, you may use the DynamoDB select opertation to create SQL-Like querise that retrieve a set of attributes based on criteria that you provide
+- Console
+
+###Anti-Patterns
+- Perwritten application tied to a traditional relational database: just use AWS RDS
+- Joins and or complex transaction: RDS or EC2 self-managed database
+- BLOB data: go to S3
+- Large data with low I/O rate: DynamoDB uses SSD drives and is optimized for workloads with a high I/O rate per GB stored. go S3
