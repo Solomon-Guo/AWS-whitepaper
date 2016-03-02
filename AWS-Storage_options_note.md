@@ -615,3 +615,48 @@ flexible NoSQL database ,low read and write latencies, ability to scale storage 
 - Joins and or complex transaction: RDS or EC2 self-managed database
 - BLOB data: go to S3
 - Large data with low I/O rate: DynamoDB uses SSD drives and is optimized for workloads with a high I/O rate per GB stored. go S3
+
+
+##ElastiCache
+- easy to deploy, operate, and scale a distributed, in-memory cache in the cloud
+- supports two polular open-source caching engines: Memcached and Redis
+- seamlessly work with existing Memcached environments
+- supports Redis master/slave replication can be used to achieve cross AZ redundancy
+
+###Ideal Usage Patterns
+- improves app performance by storing critical pieces of data in memory for low-latency access
+- used as a database front end in _read-heavy_ application, improving performance and reducing the load by chaching the results of I/O-intensive queries
+- used to manage web session data, cache dynamically-generated web pages, to cache results of computationally-intensive calculations
+- for complex data structures, such as lists,sets, hashes,and sorted sets, the Redis engine is often used as an in-memory NoSQL database
+
+###Performance
+- cache layer is very dependent on the caching strategy and the hit rate at the application level, so it's difficult to provide general guidance
+
+###Durability and Availability
+- By definition, an in0memory cache stores transient data(somethings like)
+- With Memcached engine, all ElastiCache nodes in a single cache cluster are provisioned in a single AZ
+    - ElastiCache automatically monitors the health of your cache nodes and replaces them in the events
+    - during the failure, performance will reduce but still available
+    - to enhaced fault-tolerance, run redundant cache clusters in different AZ
+    - _single cache cluster run on single AZ, multiple cache cluster should run on different AZ_
+- With Redis engine, supports replication to up to 5 read replicas for scaling
+    - place read replicas in other AZ
+    - automatically reoaire or replace the primary node(if possible), using the same DNS name
+    - if primary node down, you can failover to the read replicas with an API call
+
+###Cost Model
+Only single procing component: per cache node-hour consumed
+
+###Scalability and Elasticity
+- cache node types supporting from 213 MB up to 68 GB of memory per node
+- add or delete cache nodes to cache cluster at any time
+- Memcached cache engin has Auto Discovery to handle cache nodes
+
+###Interfaces
+- console
+- the ElastiCache command line tools
+- HTTP Query API
+- various SDKs
+
+###Anti-Patterns
+- Persistent data: no need detail for this
