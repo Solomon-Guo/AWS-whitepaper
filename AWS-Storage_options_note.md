@@ -660,3 +660,89 @@ Only single procing component: per cache node-hour consumed
 
 ###Anti-Patterns
 - Persistent data: no need detail for this
+
+
+##Redshift
+- fast, fully-managed, petabyte-scale data warehouse service that makes it simple and cost-effective to _efficiently analyze all your data using your existing business intelligence tools_
+- optimized for datasets that range from a few hundred gigabytes to a petabyte or more
+- manages the work needed to set up, operate, and scale a data warehouse, from provisioning the infrastructure capacity to automating ongoing administrative tasks such as backups and patching
+
+###Ideal Usage Patterns
+Ideal for analyzing large datasets useing your existing business intelligence tools:
+- Anazlyze global sales data for multiple products
+- store historical stock trade data
+- analyze ad impressions and clicks
+- aggregate gaming data
+- analyze social trends
+- measure clinical quality, operation efficiency, and financial performance in the health care space
+
+###Performance
+- very high query performance on datasets ranging in size from hundreds of gigabytes or more
+- uses columnar storage, data compression, and zone maps to reduce the amount of I/O needed to perform queries
+- massively parallel processing(MPP) architecture that parallelizes and distributes SQL operations to take advantage of all available resources
+- underlying hardware is designed for high performance data processing that uses local attached storage to maximize throughput.
+
+###Durability and Availability
+- 3 copies of your data -- all data written to a node in your cluster is automatically replicated to other nodes within the cluster
+- all data is continuously backed up to S3
+- snapshots are automated, incremental, and continuous:
+    - for a user-defined period (1 - 35 days) at any time
+    - can create one or more manual snapshots until explicityly deleted
+- continuously monitors the health of the cluster and automatically re-replicates data from failed drives and replaces nodes as necessary
+
+###Cost Model
+3 pricing compownents:
+- data warehouse node hours
+    - Compute node hours are the total number of hours run across all compute nodes for the billing period
+- backup storage
+    - the storage associated with automated and manual snapshots for an Redshift data warehouse cluster
+    - increasing the backup retention period or taking additional snapshots increases the backup storage consumed by the Redshift data warehouse cluster
+    - there is no additional charge for backup storage up to 100% of your provisioned storage for an active data warehouse cluster
+- data tansfer
+    - no data transfer charge for data ransferred to or from Redshift outside of VPC
+    - data transfer to or from Redshift in VPC accrues standard AWS data transfer charges
+
+###Scalability and Elasticity
+- "pushbutton scaling" pf compute nodes within a data warehouse cluster
+- with console or API call easy to up or down cluster
+- An cluster can be start as little as a single 2 TB XL node and scale all the way to a hundreds 16 TB 8XL nodes for 1.6 PB of compressed user data
+- Redshift will place your existing cluster into read-only mode, provision a new cluster of your chosen size, and then copy data from your old cluster to your new one in parallel. querise can continue running against the old cluster while the new one is being provisioned
+
+###Interface
+- Redshift Query API provides a management interface to manage data warehouse clusters programmatically
+- SDK
+- AWS CLI
+- API do not provide a data interface, uses industry standard ODBC and JDBC connections and PostgreSQL drivers
+- Data can be loaded into Redshift from a range of data sources including S3, DynamoDB, and Data Pipeline.
+
+###Anti-Patterns
+- OLTP workloads: Redshifts is a _column-oriented database_ suited to data warehouse and analytics, where queries are typically performed over very large datasets. not for traditional row-based database system
+- BLOB data: go S3
+
+
+##Databases on EC2
+EC2, together with EBS volumes, provides an ideal platform for you to operate your own self-managed relational database in the cloud. Many leading database solutions are available as prebuilt, ready-to-use EC2 AMIs
+
+###Ideal Usage Patterns
+- requires a specific traditional relational database not supported by RDS
+- users who require a maximum level of administrative control and configurability
+
+###Performance
+depends on many factors:
+- EC2 instance type
+- number and configuration of EBS volumes
+- database software and its configration
+- application workload
+- similar to same database installed on similiary configured on-permises equipment
+- To increase database performance you can scale up memory and compute resources by choosing a larger EC2 instance size
+- For _database storage_, it is usually best to use EBS Provisioned IOPS volumes
+- To _scale up I/O performance_, you can increase the Provisioned IOPS, change the number of EBS volumes, or use software RAID 0 (disk striping) across multiple EBS volumes, which will aggregate total IOPS and bandwidth
+- can also scale the total database system performance by scaling horizontally with database clustering, replication, and multiple read slaves
+- in general, they same as physical server environment
+
+###Durability and Availability
+- provide persistent storage for structured data using EBS volumes as the data store
+- enhanced by using EBS snapshots, or by using 3th-party database backup utilities to store backup at S3
+
+###Scalability and Elasticity
+can take advantage of the scalability and elasticity of the underlying AWS platform
