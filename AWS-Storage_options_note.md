@@ -744,5 +744,14 @@ depends on many factors:
 - provide persistent storage for structured data using EBS volumes as the data store
 - enhanced by using EBS snapshots, or by using 3th-party database backup utilities to store backup at S3
 
+###Cost Model
+the cost depends on the database size and number of instances used, the size of the EBS, the amount of data transferred in and out of instance and license. just like EC2 instance
+
 ###Scalability and Elasticity
-can take advantage of the scalability and elasticity of the underlying AWS platform
+can take advantage of the scalability and elasticity of the underlying AWS platformo
+
+###Anti-Patterns
+- Index and query-focused data: don't require advanced features found in a relational databse, such as joins or complex transactions. if your application is more oriented toward indexing and querying data use DynamoDB
+- Numerous BLOBs: go to S3
+- automatic scaling: this requires system administrators or DBAs to perform a manual or scripted task. DynamoDB or RDS cann pushbutton scaling or fully-automated scaling
+- Mysql, Oracle, SQL Server: use RDS to automatied backup, patching, Provisioned IOPS, replciation and pushbutton scaling features
