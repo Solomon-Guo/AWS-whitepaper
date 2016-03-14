@@ -17,4 +17,30 @@ The amount of security configuration work you have to do varies depending on whi
 - you should protect your AWS account credentials and setup individual user accounts with Amazon Identity and Access Management (IAM)
 
 ##AWS Glocal Infrastructure Security
+AWS operates the global cloud infrastrucure that you use to provision a variety of basic computing resources such as processing and storage.
+includes: facility, network, hardware, and operational sofrware
 
+###AWS Compliance Program
+The IT infrastructure that AWS provides to its customers is designed and managed in alignment with security best practices and a variety of IT security standards.
+
+###Physical and Environmental Security
+- many years of experience in run a good data center
+- housed in nondescript facilities
+- Pysical access is strictly controlled both at the perimeter and at building ingress points
+- only provides data center access and information to employees and contractors who have a legitimate business need for such privileges.
+
+###Fire Detection and Suppression
+installed with standard
+
+###Power
+Fully redundant and maintainable witout impact to operations, 24 hours a day, and seven days a week
+UPS and generators
+
+###Climate and Temperature
+- maintain a constant operating temperature for servers and other hardware
+
+###Management
+monitors electrical, mechanical, and life support systems and equipment so that any issues are immediately identified
+
+###Storage DEvice Decommissioning
+AWS procedures include a decommissioning process that is designed to prevent customer data from being exposed to unauthorized individuals
