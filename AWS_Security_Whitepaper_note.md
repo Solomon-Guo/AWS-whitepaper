@@ -44,3 +44,31 @@ monitors electrical, mechanical, and life support systems and equipment so that 
 
 ###Storage DEvice Decommissioning
 AWS procedures include a decommissioning process that is designed to prevent customer data from being exposed to unauthorized individuals
+
+##Business Continuity Management
+Data Center Business Continuity Management at AWS is under the direction of the Amazon Infrastructure Group
+
+###Availability
+In case of failure, automated processes move customer data traffic awawy from the affected area. Core applications are deployed in an N+1 configration, there is sufficient capacity to enable traffic to be load-balanced to the remaining sites
+data place within multiple geopraphic regions as well as across multiple availability zone within each region
+physically separated:
+- typical meteropolitan region
+- lower risk flood plains
+power
+- UPS
+- fed via different grids
+
+###Incident Response
+- employs industry-standard diagnostic prcedures to drive resolution during business-impacting events
+- Staff operator provide 24*7*365
+
+###Company-Wide Executive Review
+recently reviewed the AWS services resiliency plans
+
+###Communication
+implemented varous methods of internal communication at ga global level to help emplyees understand their individual roles and responsibilities and to communicate significant events in a timely manner
+
+also implemented vaarious methods of external communication to support its customer base and the community
+
+##Network Security
+implemented a world-class network infrastructure that is carefully monitored and managed
