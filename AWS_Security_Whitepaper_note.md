@@ -72,3 +72,21 @@ also implemented vaarious methods of external communication to support its custo
 
 ##Network Security
 implemented a world-class network infrastructure that is carefully monitored and managed
+
+###Secure Network Architecture
+Devices are in place to monitor and control communications at the external boundary of the network and at key internal boundaries within the network
+ACLs. or traffic flow policies, are established on each managed interface, which manage and enforce the flow of traffic
+
+###Secure Access Points
+AWS has strategically placed a limited number of access points to the cloud to allow for a more comprehensive monitoring of inbound and outbound communications and network traffic. These customer access points are called API endpoints, and they allow secure HTTP access, which allows you to establish a secure communication session with your storage or compute instances whitin AWS.
+
+###Transmission Protection
+- HTTPS
+- additional layers of network security: VPC provides a private subnet within the AWS cloud
+
+###Amazon Corporate Segregation
+- AWS is segregation from the Amazon Corporate network
+- AWS developers and administrators can access AWS cloud components in order to maintain them
+- connect to AWS network through a bastion host with logging all activity
+
+###Fault-Tolerant Design
