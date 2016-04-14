@@ -90,3 +90,10 @@ AWS has strategically placed a limited number of access points to the cloud to a
 - connect to AWS network through a bastion host with logging all activity
 
 ###Fault-Tolerant Design
+- Data center are blt in clusters in various global regions; all of them are online and serving customer; no data center is cold .
+- Core applications are deployed in an N+1 configuration
+- flexibility to place instances and store data within multiple georaphic regions as well as across multiple availability zones within each region;
+- each availability zone is designed as an independent failure zone( physical separated)
+- you should architect AWS usage to take advantage of multiple regions and availability zones
+- all communications between regions is across public internet infrastructure; therefor, appropriate encryption methods should be used to protect sensitive data
+- AWS GovCloud(US) is an isolated AWS Region designed to allow US government agencies and customers move workloads into the cloud by helping them meet certain regulatory and compliance requirements
