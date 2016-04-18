@@ -97,3 +97,23 @@ AWS has strategically placed a limited number of access points to the cloud to a
 - you should architect AWS usage to take advantage of multiple regions and availability zones
 - all communications between regions is across public internet infrastructure; therefor, appropriate encryption methods should be used to protect sensitive data
 - AWS GovCloud(US) is an isolated AWS Region designed to allow US government agencies and customers move workloads into the cloud by helping them meet certain regulatory and compliance requirements
+
+###Network monitoring and protection
+- automated monitoring systems to provide a high level of service performance and availability
+- designed to detect unusual or unauthorized activities and conditions at ingress and egress comminication points
+    - server and network usage
+    - port scanning activities
+    - applications usage
+    - unauthorized intrusion attempts
+- ability to set custom performance metrics thrsholds for unusual activity
+- monitor key operational metrics. Alarms are configured to automatically notify operations and management personnel when early warning thresholds are crossed on key operational metrics.On-call scheduale and pager
+- documentation is maintained to aid and inform operations personnel in handling incidents or issues
+- conferencing system is used which supports communication and logging capabilities, collaboration
+- AWS security monitoring tools help identify several types of service (DoS) attacks, in cluding distributed, flooding, and software/logic attacks.
+    - DDoS attack: AWS API endpoints are hosted on large, internet-scale, world-class infrastructure that benefits from the same engineering expertise that has built Amazon into the world's largetsonline retailer.
+    - Man in the Middle (MITM) Attacks. All of the AWS APIs are available via SSL-protected endpoints wihich and log them to the instance's console.Use SSL for all of your interactions with AWS
+    - IP Spoofing, EC2 instances acannot send spoofed network traffice by AWS-controlled, host-based fire wall infratructure
+    - Port Scanning, Unauthorized port scans by EC2 customers are a violation of the AWS acceptable Use Policy
+    - Packet sniffing by other tenants, not possible for a virtual instance, you can place your interface into promiscuous mode then the hypervisor will not deliver any traffice to them that is not addressed to themz
+
+###AWS Access
