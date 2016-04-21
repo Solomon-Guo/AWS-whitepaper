@@ -116,4 +116,90 @@ AWS has strategically placed a limited number of access points to the cloud to a
     - Port Scanning, Unauthorized port scans by EC2 customers are a violation of the AWS acceptable Use Policy
     - Packet sniffing by other tenants, not possible for a virtual instance, you can place your interface into promiscuous mode then the hypervisor will not deliver any traffice to them that is not addressed to themz
 
-###AWS Access
+##AWS Access
+- segregated from Amazon Corporate network
+- requires a separate set of credentials for logical access
+- requires SSH public-key authentucation through a bastion host
+- access through the AWS access management system with approvals
+
+###Account Review and Audit
+- reviewed every 90 days
+- explicit re-approval is required or access to the resource is automatically revoked
+- Access is also automatically revoke when resign
+- When changes in an employee's job function occur, need explicitly approval or revoked
+
+###Background checks
+criminal background checks
+
+###Credemtials Policy
+Passwords must be complex and are forced to be changed every 90 days
+
+##Secure Design Principles
+follows secure software development best practices
+
+##Change Management
+###Software
+- change are thoroughly reviewed, tested, approved and well-comunicated
+- push into production in a phased deployment starting with lowest impact areas
+- AWS performs self-audits of changes to key services to monitor quality, maintain high standards, and facilitate continuous improvement of thr chage management process
+
+###Infrastucture
+- The infrastruture team maintains and operates a UNIX/Linux configuration management framework to address hardware scalability, availability, auditing, and security management
+- monitoring results obtain or update their configuration and software
+
+##AWS Account Security Features
+- Credentials for acces control
+- HTTPS endpotins
+- IAM user account
+- Activity logging
+- Trusted Advisor security checks
+
+###AWS Credentials
+- Password: root account or IAM user login to console
+- Multi-Factor Authentication(MFA): root or IAM login
+- Access Keys: Digitally signed request to AWS API
+- Key Pairs : EC2 instance and CloudFront signed URLs
+- X.509 Certificates: Digitally signed SOAP requests to API and SSL server certificates
+
+- you can download a report for your account at Security Credentials page
+- rotate your access ketys and certificates on a regular basis
+- supports multiple concurrent access keys and certificates
+
+####Password
+just password for account
+
+####AWS MFA
+- need to enabl
+- need to provid a six-digit single-user code in addition to your standard user name and password
+- you get this single-use code from an authentication device that you keep in your physical possession
+- support hardware tokens and virtual MFA devices
+- support API and IAM and resources that sipport ACLs
+
+####Access Keys
+- for sign API requests
+- A request must reach AWS within 15 minutes of the time stamp in the request
+- Signature Version 4 using HMAC-SHA256 protocal
+- save in a safe place and not embed them in your code
+
+####Key pairs
+- use public/private key pair rather than a password
+- for CloudFront , key pairs to create signed URLs for private content
+
+####X.509 Certificates
+- when you create a request, you create a digital signature with your private key and then include that signature in the request along with your certificate
+
+###Individual User Accounts
+-IAM fir creating and managing individual users within your AWS Account
+
+###Secure HTTPS Access Points
+- SSL
+- ECDHE protocol
+
+###Security Logs
+- AWS cloudTrail provides a log of all requests for AWS resources within your account
+- Log can storage to S3
+- CloudWatch Logs feature to collect and monitor
+
+###AWS Trusted Advisor Security Checks
+- Inspects your AWS enviroment and makes recommendations whrn opportunities may exist to save money, improve system performance , or close security gaps
+
