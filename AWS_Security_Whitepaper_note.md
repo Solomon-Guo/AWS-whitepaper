@@ -246,3 +246,27 @@ EBS sercurity
 Auto Scaling Security
 - signed request to API
 - IAM role
+
+###Networking Services
+ELB
+- Take over the encryption and decryption work from the EC2 and manages it centrally on the load balance
+- offers clients a single point of caontact, and  can also serve as the first line of defense against attacks on your network
+- sercurity groups associate with ELB
+- supprots end-to-end traffic encryption using TLS
+
+VPC
+- vpc with a single ppublic subnet only
+- vpc with public and private subets
+- vpc with public and private subets and hardward VPN access
+- vpc with private subet onlu and hardware VPN access
+- you must create VPC security groups specifically for your VPC, any EC2 security gourps you have create will not work inside your VPC
+- each subnet in an VPC is associated with a routing table, and all network traffic leaving the subnet is processed by the routing table to determine the destination
+
+Route53
+*
+
+ClouFront
+- you can enable the service'r private content feature to control over who is able to download content from cloudFront
+
+Direct connect Security
+
