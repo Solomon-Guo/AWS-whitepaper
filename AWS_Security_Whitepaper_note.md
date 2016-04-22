@@ -203,3 +203,46 @@ just password for account
 ###AWS Trusted Advisor Security Checks
 - Inspects your AWS enviroment and makes recommendations whrn opportunities may exist to save money, improve system performance , or close security gaps
 
+##AWS Service-Specific Security
+
+###Compute Services
+EC2 Security
+- mutiple levels of sercurity
+    - OS
+    - firewall
+    - signed API
+- The Hypervisor
+    - utilizes a highly customized version of the Xen hypervisor
+    - virtualization of the physical resources leads to a clear sepatation between guest and hypervisor, resulting in additional security separation between the two
+- instance isolation
+    - different instances running on the same physical machine are isolated from each other via the Xen hypervisor
+    - AWS firewall resides thithin the hypervisor layer, between the physical network interface and the instance's virtualinterface
+    - physical RAM is sepatated using similar mechanisms
+    - no access to raw disk devices
+    - memory will scrubbed （set to zero) before return to free memory pool to assign to customer
+    - encryoted file system on top if the virtualized disk device
+- Host operating system
+    - administrator access will audit
+- Guest operating system
+    - completely control by you, AWS don't have access rights
+    - recommend security rules
+    - EC2 key pair access
+    - you also control the updating and patching of your guest OS, including security updates
+    - AWS AMI update regularly with the latest patch, you need to launch new instance to adopt
+- Firewall
+    - is a function of which ports you open, and for what duration and purpose
+- API access
+    - sign by Amazon Secret Access Key
+- permission
+    - IAM
+
+EBS sercurity
+- restricted to the AWS account that created the volume
+- redundantly stored in multiple physical locations with no additional charge, in the same availability zone
+- recommend storage snapshot to S3
+- you should conduct a specualized wipe procedure priot to deleting the volume for compliance with your established requirement
+- Encrypt with AES-256 between EC2 instances and EBS storage. only available on EC2's more powerful instance types
+
+Auto Scaling Security
+- signed request to API
+- IAM role
