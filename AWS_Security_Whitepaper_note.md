@@ -270,3 +270,30 @@ ClouFront
 
 Direct connect Security
 
+
+##Storage Services
+###S3
+Data Access
+- IAM: User-Level Control
+- ACL: AWS Account-Level Control;for resources access
+- Bucket Policies: both AWS Account-level control and User-Level Control
+
+Data Transfer: SSL encrypted
+
+Data Storage:
+- encrypte while upload with Client
+- not place sensitive information in S3 metadata
+- AWS S3 Server Side Encryption(SSE)
+    - AES-256
+    - every protected object is encrypted with a unique encryption key, rotated
+    - key different in hosts
+
+Data Durability and Reliability
+- Versiong, you can use it to preserve, retrieve, and restore every verion of every obkect stored in S3 bucket
+- MFA
+
+Access Logs
+
+Corss-Origin Resource Sharing(CORS)
+- Modern browsers use the Same origin policy to block corss-site scripting attack
+- With enable CORS policy, asset storaged in S3 bucket can be safely refrenced by external requests
