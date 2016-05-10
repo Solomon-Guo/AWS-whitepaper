@@ -297,3 +297,57 @@ Access Logs
 Corss-Origin Resource Sharing(CORS)
 - Modern browsers use the Same origin policy to block corss-site scripting attack
 - With enable CORS policy, asset storaged in S3 bucket can be safely refrenced by external requests
+
+###Glacier
+- automatically enrypts the data using AES-256 and stores it durably in an immutable form
+- only your account can access yourdata
+- use IAM to control users
+
+###Storage Gateway
+- transfer over SSL to S3
+- only uploads data that has changed
+- each gateway(virtual machine) will automatically updates amd patcjes
+- iSCSI protocol supports authentication between targets and initators via CHAP(Challenge-Handshake Authentication Protocol).protect against man-in-the-middle and playback attacks
+- connection establish by AWS account in the console
+
+###Import/Export
+- requires that you securely identify and authenticate your storage device
+- encrypted hardware
+
+##Database Services
+###DynamoDB
+- durability and availability
+- automatical backup
+- API permission for IAM
+- SSL-encrypted endpoints
+
+###RDS
+Access Control
+- commone db account
+- Sercurity Group
+- IAM
+
+Network Isolation
+- VPC
+- subnet for multiple AZ
+
+Encryption
+- ssl
+- Transparent Dta Encryption(TDE)
+
+Automated backups and Snapshot
+- backup database nad transaction logs, up to last 5minutes or 35 days
+- during the backup windows, storage I/O may be suspended, typically lasts a few minutes
+- snapshots are user-initiated backup of your DB instance
+
+DB Instance replicateion
+- Multi-AZ deployment provisions and maintains a synchronous standby replica of your DB instance in a different AZ
+
+Automatic Software Patching
+- maintain windows
+- Multi-AZ -> perform maintenance on standby -> promote standby to primry -> perform on old primary which becomes the new standby
+
+Event Notification
+- published via AWS SNS such as email and SMS
+
+###Redshift
