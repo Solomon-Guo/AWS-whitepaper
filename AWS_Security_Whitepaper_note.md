@@ -403,3 +403,32 @@ set up, operate, and send notifications from the cloud. It provides developers w
 - SNS can be leveraged to build highly reliable, event-driven workflows and messaging applications without the need for complex middleware and application management.
 - SNS access is granted based on an AWS Account or a user created with AWS IAM.
 - HTTPS
+
+###SWF (Simple Workflow Service)
+makes it easy to build applications that coordinate work across distributed components
+- access is granted based on an AWS Account or a user created with AWS IAM
+- you cannot grant users associated with other AWS Accounts access to your SWF workflows
+
+###SES (Simple Email Service)
+an outbount-lonly email-sending service builty on Amazon;s reliable and scalable infrastructure
+- required users to verifu their email address or domain in order to confirm  that they own it and to prevent others from using it. to verify a domain, SES required the sender to publish a DNS record that SES supplies as proof of control over the domain
+
+maximize deliverability and dependability for all of our senders:
+- content-filtering technologies to help detect and block message containing viruses or malware befor they can be sent;
+- maintains complaint feedback loops with major ISPs
+- uses a variety of techniques to measure the quality of each user's sending
+- suooirtsd authentication mechanisms such as Sender Policy Framework(SPF) and DomainKeys IdentifiedMail (DKIM). When you authenticate an email, you provide evidence to ISPs that you own the domain. SES maikes it easy for you
+
+- use credentialsto verify permission to interact with SES
+- integrates with IAM so that you can specify which SES API actuibs a user can perform
+- SMTP requeired TLS emcrypt: STARTTLS and TLS Wrapper
+- HTTP pertected by TLS through HTTPS endpoint
+
+###Elastic Transcoder Service
+- IAM
+- SSL-encrypted endpoint
+- durability is provided by S3
+
+###AppStream
+- IAM
+- STX Protocol to manage the streaming of your application from AWS to local devices
