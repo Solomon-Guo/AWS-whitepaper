@@ -432,3 +432,16 @@ maximize deliverability and dependability for all of our senders:
 ###AppStream
 - IAM
 - STX Protocol to manage the streaming of your application from AWS to local devices
+
+##Analiytics Services
+###EMR (Elastic MapReduce)
+run Hadoop cluster that process vast amounts of data by distributing the work and data among several servers
+
+- Amazon EMR sets up two Amazon EC2 security groups: one for the master nodes and another for the slaves.
+    - the master security group has a port open for communication with the service. it also has the SSH port open to allow you to SSH into the instances, using the kep specified ata startup;
+    - the slaves start in a separate security group, which only allow interaction with the master instance
+    - By default, both two security groups are set up to not allow access from external sources
+    - EMR transfers data to and from S3 using SSL
+- IAM. By default, if an IAM user launchs a cluster, that cluster is hidden from other IAM users on the AWS account.
+- For an additional layer of protection, you can launch the EC2 instances of your EMR cluster into an Amazon VPC, which is like launching it into a private subnet. This allows you to control access to the entire subnetwork.
+- encryption and decryption data upload to S3
