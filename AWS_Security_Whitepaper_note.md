@@ -445,3 +445,33 @@ run Hadoop cluster that process vast amounts of data by distributing the work an
 - IAM. By default, if an IAM user launchs a cluster, that cluster is hidden from other IAM users on the AWS account.
 - For an additional layer of protection, you can launch the EC2 instances of your EMR cluster into an Amazon VPC, which is like launching it into a private subnet. This allows you to control access to the entire subnetwork.
 - encryption and decryption data upload to S3
+
+##Mobile Service
+###Cognito
+Cognito provides identity and sync services for mobile and web-based applications. It provides temporary, limited-privilege credentials for both authenticated and unauthenticated users without having to manage any backend infrastructure.works with well-know identity providers like Google, Facebook, and Amazon to authenticate end users of your mobile and web applications.
+
+- IAM, role
+- with Cognito, there's no need to create individual AWS accounts or even IAM accounts for evey one of your web/mobile app's end users who will need to access your AWS resources, In conjunction with IAM roles, mobile users can securely access AWS resources and application feature, and even save data to the AWS cloud without having to create an account or log in. However, if they choose to do this later, Cognito will merge data and identification information.
+- Because Cognito stores data locally as well as in the service, your end users can continu to interact with their data even when they are offline.
+- transmitted over HTTPS
+
+###Mobile Analytics
+- IAM
+- SSL API
+
+##Applications
+###WorkSpace
+- PCoIP (PC-over-IP) protocol. provide an interactive video stream without transmitting actual data.
+- integrate with Active Directory
+- multi-factor authentication
+- associate RADIUS
+- resudes on VPC
+- presistent storage is provided by EBS and is automatically backed up twice a day to S3
+- AWS takes care if serverak security and maintenance taks
+- IAM
+
+###WorkDocs
+- user information is sotred in an Active Directory-compatible network directory
+- all data in transit is encrypted using industry-standard SSL
+- MFA (with Radius)
+
