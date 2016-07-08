@@ -148,10 +148,19 @@ provides durable block-level storage for use with EC2
 - snapshot can be copied _across AWS regions_, for geographical expansion, data center migration and disaster recovery
 - EBS volumes range from 1 GB to 1 TB, and are allocated in 1 GB increments
 
-###Read about from internet
+###Read from internet
 Performance issues with Amazon Web Services’ Elastic Block Storage (EBS) are complex to understand because EBS is an instance of networked storage. Unlike attached storage, your EBS volumes are sharing some infrastructure with other customers’.   So when one of your EBS volumes gets slow, it’s hard to understand why. Actual behavior can sometimes run counter to your intuition.
+
 If IOPS were a great predictor of EBS performance you would expect to have a strong correlation between IOPS and Volume Queue Length, independent of other factors. The 2nd and 3rd graph show this is clearly not the case.
+
 Even if your EC2 instances were using dedicated volumes (known as “provisioned IOPS volumes” in AWS parlance), the physical disks behind EBS may still be shared with other AWS customers. Their workloads may consume a great share of disk bandwidth when you need it most.
+
+
+http://www.cnblogs.com/hotcan/archive/2013/02/15/2913040.html
+
+tandard类型的驱动器明显要比Provisioned IOPS驱动器传输速率要高出许多。标准驱动器的平均传输速率在50MB/s左右，而IOPS驱动器只有33MB/s。所以对于要进行短暂快速传输的数据，还是使用标准类型会比较好。
+
+从上表可以看出，标准类型的磁盘在读的性能上要远远好于IOPS的磁盘读性能，对于4KB的随机读写，性能也是远远好于IOPS类型，但是它的读写性能受到外在的影响和干扰严重，波动非常巨大。此外标准类型数据的顺序读速度是顺序写速度的将近2倍，读的速度大约是100MB/s,而写却只有35MB/s左右，这和刚才的测试结果也大体一致，不过标准盘号称的是100IOPS，测试的结果却远远好于他声称的数据。对于IOPS盘而言，它的读写性能比较平均，速度都在40MB/s左右，不过IOPS却非常美好地达到了我们设置的要求。对于1000 IOPS的磁盘，读写基本上是1020 IOPS，对于2000 IOPS的盘，读写基本上是2040。虽然速度上和标准类型的盘在峰值上无法相比，但是由于性能稳定，可以靠谱地实现许多例如数据库这样的需求。
 
 ###Ideal Usage Patterns
 - for data that changes relatively frequently and requires long-term persistence
