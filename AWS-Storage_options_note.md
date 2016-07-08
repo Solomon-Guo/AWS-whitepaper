@@ -136,7 +136,7 @@ Each of these traditional storage options differs in performace, durability, and
 ## EBS
 provides durable block-level storage for use with EC2
 - off-instance
-- _network-attached storage(NAS)_
+- __network-attached storage(NAS)__
 - persistes independently from the running life of a single EC2 instance
 - like a physical hard drive
 - use EBS volume to boot an EC2 instance( EBS-root AMIs only)
@@ -147,21 +147,18 @@ provides durable block-level storage for use with EC2
 - snapshot can be used to instantate as many volumes as you wish
 - snapshot can be copied _across AWS regions_, for geographical expansion, data center migration and disaster recovery
 - EBS volumes range from 1 GB to 1 TB, and are allocated in 1 GB increments
-- 
-""" 
+
+###Read about from internet
 Performance issues with Amazon Web Services’ Elastic Block Storage (EBS) are complex to understand because EBS is an instance of networked storage. Unlike attached storage, your EBS volumes are sharing some infrastructure with other customers’.   So when one of your EBS volumes gets slow, it’s hard to understand why. Actual behavior can sometimes run counter to your intuition.
-
 If IOPS were a great predictor of EBS performance you would expect to have a strong correlation between IOPS and Volume Queue Length, independent of other factors. The 2nd and 3rd graph show this is clearly not the case.
-
 Even if your EC2 instances were using dedicated volumes (known as “provisioned IOPS volumes” in AWS parlance), the physical disks behind EBS may still be shared with other AWS customers. Their workloads may consume a great share of disk bandwidth when you need it most.
-"""
 
-###Ideal Usage Patterns###
+###Ideal Usage Patterns
 - for data that changes relatively frequently and requires long-term persistence
 - particaularly well-suited for use as the primary storage for a database or file system, or access to raw block-level storage
 - providesed IOPS volumes are particularly well-suited from use with database application that require a high and consistent rate of random disk reads and writes
 
-###Performance###
+###Performance
 - Standard volumes and Provisioned OPS volumes. They differ in performance characteristics and pricing model
 - Standard volumes:
     - offer cost effective storage for moderate or bursty I/O requirements.
