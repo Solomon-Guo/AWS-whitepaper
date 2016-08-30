@@ -1,1 +1,48 @@
 ##Application Load Balancer FAQs
+https://aws.amazon.com/elasticloadbalancing/applicationloadbalancer/faqs/
+
+Q: Which protocols does an Application load balancer support?
+An Application Load Balancer supports load balancing of applications using HTTP and HTTPS (Secure HTTP) protocols.
+
+Q: What TCP ports can I use to load balance?
+You can perform load balancing for the following TCP ports: 1-65535
+
+Q: Is WebSockets supported on an Application Load Balancer?
+Yes. WebSockets and Secure WebSockets support is available natively and ready for use on an Application Load Balancer.
+WebSocket protocol 是HTML5一种新的协议。它实现了浏览器与服务器全双工通信(full-duplex)。一开始的握手需要借助HTTP请求完成
+
+Q: Does an Application Load Balancer support EC2-Classic?
+No.
+
+Q: Can I configure my Amazon EC2 instances to accept traffic only from my Application Load Balancers?
+Yes.
+
+Q: Can I configure a security group for the front-end of an Application Load Balancer?
+Yes.
+
+Q: How do I manage both Application and Standard Load Balancers simultaneously?
+The ELB Console will allow you to manage Application and Classic Load Balancers from the same interface. If you are using the CLI or an SDK, you will use a different ‘service’ for Application Load Balancers. For example, in the CLI you will describe your Classic Load Balancers using `aws elb describe-load-balancers` and your Application Load Balancers using `aws elbv2 describe-load-balancers`.
+
+Q: Can I convert my Classic Load Balancer to an Application Load Balancer (and vice versa)?
+No, you cannot convert one load balancer type into another.
+
+Q: Can I use an Application Load Balancer as a Layer-4 load balancer?
+No. If you need Layer-4 features, you should continue to use Classic Load Balancers.
+
+Q: Can I use a single Application Load Balancer for handling HTTP and HTTPS requests?
+Yes, you can add listeners for HTTP port 80 and HTTPS port 443 to a single Application Load Balancer.
+
+Q: How does an Application Load Balancer integrate with AWS Certificate Manager (ACM)?
+An Application Load Balancer is integrated with AWS Certificate Management (ACM). Integration with ACM makes it very simple to bind a certificate to the load balancer thereby making the entire SSL offload process very easy. Purchasing, uploading, and renewing SSL/TLS certificates is a time-consuming manual and complex process. With ACM integration with Application Load Balancer, this whole process has been shortened to simply requesting a trusted SSL/TLS certificate and selecting the ACM certificate to provision it with the load balancer.
+
+Q: Is IPv6 supported with an Application Load Balancer?
+No, IPv6 is not supported with an Application Load Balancer.
+
+Q: How do you set up rules on an Application Load Balancer?
+You can configure rules for each of your listeners you configure for the load balancer. The rules include a condition and a corresponding action if the condition is satisfied. The condition will be a path URL path of a service (e.g. /img) and action is forward. Once you have set this up, the load balancer will use the rules to determine the service to which the request must be routed.
+
+Q: How does Application load balancer pricing work?
+You are charged for each hour or partial hour that an Application load balancer is running and the number of Load Balancer Capacity Units (LCU) used per hour.
+
+Q: What is a Load Balancer Capacity Unit (LCU)?
+An LCU is a new metric for determining how you pay for an Application load balancer. An LCU defines the maximum resource consumed in any one of the dimensions (new connections, active connections, and bandwidth) the Application load balancer processes your traffic.
