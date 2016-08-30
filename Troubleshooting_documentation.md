@@ -39,11 +39,35 @@ Initial Steps
 - For an instance using an instance-store backed AMI, terminate the instance and launch a replacement.
 
 
-
-
-
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html
 
-http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html
+Important
+
+The recover action is only supported on:
+
+    C3, C4, M3, M4, R3, T2, and X1 instance types.
+
+    Instances in a VPC
+
+    Note
+
+    If your instance has a public IP address, it retains the same public IP address after recovery.
+
+    Instances with shared tenancy (where the tenancy attribute of the instance is set to default)
+
+    Instances that use Amazon EBS storage exclusively
+
+Currently, the recover action is not supported on:
+
+    EC2-Classic instances
+
+    Dedicated tenancy instances
+
+    Instances running on dedicated hosts
+
+    Instances with encrypted EBS volumes
+
+    Instances that use any instance store volumes, including instances launched with block device mappings for instance store volumes
 
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-restoring-volume.html
+snapshot
