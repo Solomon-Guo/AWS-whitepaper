@@ -46,3 +46,128 @@ You are charged for each hour or partial hour that an Application load balancer 
 
 Q: What is a Load Balancer Capacity Unit (LCU)?
 An LCU is a new metric for determining how you pay for an Application load balancer. An LCU defines the maximum resource consumed in any one of the dimensions (new connections, active connections, and bandwidth) the Application load balancer processes your traffic.
+
+##RDS
+https://aws.amazon.com/rds/faqs/
+Q: What does Amazon RDS manage on my behalf?
+Amazon RDS manages the work involved in setting up a relational database: from provisioning the infrastructure capacity you request to installing the database software. Once your database is running on its own DB Instance, Amazon RDS automates common administrative tasks, such as performing backups and patching the database software that powers your DB Instance. For optional Multi-AZ deployments, Amazon RDS also manages synchronous data replication across Availability Zones and automatic failover.
+Since Amazon RDS provides native database access, you interact with the relational database software as you normally would. This means you're still responsible for managing the database settings that are specific to your application. You'll need to build the relational schema that best fits your use case and are responsible for any performance tuning to optimize your database for your application’s workflow.
+
+Q: How do I access my running DB Instance?
+Once your DB Instance is available, you can retrieve its endpoint via the DB Instance description in the AWS Management Console or DescribeDBInstance API. Using this endpoint you can construct the connection string required to connect directly with your DB Instance using your favorite database tool or programming language. In order to allow network requests to your running DB Instance, you will need to authorize access. For a detailed explanation of how to construct your connection string and get started, please refer to our Getting Started Guide.
+
+Q: What is a maintenance window? Will my DB Instance be available during software maintenance?
+
+The Amazon RDS maintenance window is your opportunity to control when DB Instance modifications (such as scaling DB Instance class) and software patching occur, in the event they are requested or required. If a maintenance event is scheduled for a given week, it will be initiated and completed at some point during the maintenance window you identify. Maintenance windows are 30 minutes in duration.
+
+The only maintenance events that require Amazon RDS to take your DB Instance offline are scale compute operations (which generally take only a few minutes from start-to-finish) or required software patching. Required patching is automatically scheduled only for patches that are security and durability related. Such patching occurs infrequently (typically once every few months) and should seldom require more than a fraction of your maintenance window. If you do not specify a preferred weekly maintenance window when creating your DB Instance, a 30 minute default value is assigned. If you wish to modify when maintenance is performed on your behalf, you can do so by modifying your DB Instance in the AWS Management Console or by using the ModifyDBInstance API. Each of your DB Instances can have different preferred maintenance windows, if you so choose.
+
+Running your DB Instance as a Multi-AZ deployment can further reduce the impact of a maintenance event. Please refer to the Amazon RDS User Guide for more information.
+
+For more information on using the APIs or command line interface to specify your maintenance window, please refer to the Amazon RDS Developer Guide. For more information on Multi-AZ mode deployments, click here.
+
+Q: What should I do if my queries seem to be running slow?
+
+If you are using MySQL, you can access the MySQL slow query logs for your database to determine if there are slow-running SQL queries and, if so, the performance characteristics of each. You could set the "slow_query_log" DB Parameter and query the mysql.slow_log table to review the slow-running SQL queries. Please refer to the Amazon RDS User Guide to learn more.
+
+If you are using Oracle, you can use the Oracle trace file data to identify slow queries. For more information on accessing trace file data, please refer to Amazon RDS User Guide.
+
+If you are using SQL Server, you can use the client side SQL Server traces to identify slow queries. For information on accessing server side trace file data, please refer to Amazon RDS User Guide.
+
+You may also want to check the CPU utilization metrics for your DB Instance via Amazon CloudWatch. High levels of CPU utilization can reduce query performance and in this case you may want to consider scaling your DB Instance class. For more information on monitoring your CPU utilization, read the Amazon RDS Monitoring Guide.
+
+Q: How will I be charged and billed for my use of Amazon RDS?
+
+You pay only for what you use, and there are no minimum or setup fees. You are billed based on:
+
+    DB Instance hours – Based on the class (e.g. Standard Small, Large, Extra Large) of the DB Instance consumed. Partial DB Instance hours consumed are billed as full hours.
+    Storage (per GB per month) – Storage capacity you have provisioned to your DB Instance. If you scale your provisioned storage capacity within the month, your bill will be pro-rated.
+    I/O requests per month – Total number of storage I/O requests you have (for Amazon RDS Magnetic Storage only)
+    Provisioned IOPS per month – Provisioned IOPS rate, regardless of IOPS consumed (for Amazon RDS Provisioned IOPS (SSD) Storage only)
+    Backup Storage – Backup storage is the storage associated with your automated database backups and any active database snapshots you have taken. Increasing your backup retention period or taking additional database snapshots increases the backup storage consumed by your database. Amazon RDS provides backup storage up to 100% of your provisioned database storage at no additional charge. For example, if you have 10GB-months of provisioned database storage, we will provide up to 10GB-months of backup storage at no additional charge. Based upon our experience as database administrators, the vast majority of databases require less raw storage for a backup than for the primary data set, meaning that most customers will never pay for backup storage. Backup storage is only free for active DB Instances.
+    Data transfer –Internet data transfer in and out of your DB Instance.
+
+For Amazon RDS pricing information, please visit the pricing section on the Amazon RDS product page.
+
+Q: How will I be billed for Multi-AZ DB Instance deployments?
+
+If you specify that your DB Instance should be a Multi-AZ deployment, you will be billed according to the Multi-AZ pricing posted on the Amazon RDS pricing page. Multi-AZ billing is based on:
+
+    Multi-AZ DB Instance Hours – Based on the class (e.g. Small, Large, Extra Large) of the DB Instance consumed. As with standard deployments in a single Availability Zone, partial DB Instance hours consumed are billed as full hours. If you convert your DB Instance deployment between standard and Multi-AZ within a given hour, you will be charged both applicable rates for that hour.
+    Provisioned storage (for Multi-AZ DB Instance) – If you convert your deployment between standard and Multi-AZ within a given hour, you will be charged the higher of the applicable storage rates for that hour.
+    I/O requests per month – Total number of storage I/O requests you have. Multi-AZ deployments consume a larger volume of I/O requests than standard DB Instance deployments, depending on your database write/read ratio. Write I/O usage associated with database updates will double as Amazon RDS synchronously replicates your data to the standby DB instance. Read I/O usage will remain the same.
+    Backup Storage – Your backup storage usage will not change whether your DB Instance is a standard or Multi-AZ deployment. Backups will simply be taken from your standby to avoid I/O suspension on the DB Instance primary.
+    Data transfer – You are not charged for the data transfer incurred in replicating data between your primary and standby.
+
+Q: How do I scale the compute resources and/or storage capacity associated with my Amazon RDS Database Instance?
+
+You can scale the compute resources and storage capacity allocated to your DB Instance with the ModifyDBInstance API or the AWS Management Console (selecting the desired DB Instance and clicking the “Modify” button). Memory and CPU resources are modified by changing your DB Instance class, and storage available is changed when you modify your storage allocation. Please note that when you modify your DB Instance class or allocated storage, your requested changes will be applied during your specified maintenance window. Alternately, you can use the “apply-immediately” flag to apply your scaling requests immediately. Bear in mind that any other pending system changes will be applied as well.
+
+Monitor the compute and storage resource utilization of your DB Instance, for no additional charge, via Amazon CloudWatch. You can access metrics such as CPU utilization, storage utilization, and network traffic by clicking the “Monitoring” tab for your DB Instance in the AWS Management Console or using the Amazon CloudWatch APIs. To learn more about monitoring your active DB Instances, read the Amazon RDS Monitoring Guide.
+
+Please note that for SQL Server, because of the extensibility limitations of striped storage attached to a Windows Server environment, Amazon RDS does not currently support increasing storage. While we plan to support this functionality in the future, we recommend you to provision storage based on anticipated future storage growth. In the interim, if you need to increase the storage of a SQL Server DB Instance, you will need to export the data, create a new DB Instance with increased storage, and import the data into it. Please refer to the data import guide for SQL Server for more information.
+
+Q: What is the difference between automated backups and DB Snapshots?
+
+Amazon RDS provides two different methods for backing up and restoring your DB Instance(s) automated backups and database snapshots (DB Snapshots).
+
+The automated backup feature of Amazon RDS enables point-in-time recovery of your DB Instance. When automated backups are turned on for your DB Instance, Amazon RDS automatically performs a full daily snapshot of your data (during your preferred backup window) and captures transaction logs (as updates to your DB Instance are made). When you initiate a point-in-time recovery, transaction logs are applied to the most appropriate daily backup in order to restore your DB Instance to the specific time you requested. Amazon RDS retains backups of a DB Instance for a limited, user-specified period of time called the retention period, which by default is one day but can be set to up to thirty five days. You can initiate a point-in-time restore and specify any second during your retention period, up to the Latest Restorable Time. You can use the DescribeDBInstances API to return the latest restorable time for you DB Instance(s), which is typically within the last five minutes. Alternatively, you can find the Latest Restorable Time for a DB Instance by selecting it in the AWS Management Console and looking in the “Description” tab in the lower panel of the Console.
+
+DB Snapshots are user-initiated and enable you to back up your DB Instance in a known state as frequently as you wish, and then restore to that specific state at any time. DB Snapshots can be created with the AWS Management Console or CreateDBSnapshot API and are kept until you explicitly delete them with the Console or DeleteDBSnapshot API.
+
+The snapshots which Amazon RDS performs for enabling automated backups are available to you for copying (using the AWS console or the rds-copy-db-snapshot command)or for the snapshot restore functionality. You can identify them using the "automated" Snapshot Type. In addition, you can identify the time at which the snapshot has been taken by viewing the "Snapshot Created Time" field. Alternatively, the identifier of the "automated" snapshots also contains the time (in UTC) at which the snapshot has been taken.
+
+Please note: When you perform a restore operation to a point in time or from a DB Snapshot, a new DB Instance is created with a new endpoint (the old DB Instance can be deleted with the AWS Management Console or DeleteDBInstance API, if so desired). This is done to enable you to create multiple DB Instances from a specific DB Snapshot or point in time.
+
+Q: Can I move my existing DB instances outside VPC into my VPC?
+
+You can take a snapshot of your DB Instance outside VPC and restore it to VPC by specifying the DB Subnet Group you want to use. Alternatively, you can perform a “Restore to Point in Time” operation as well.
+
+Q: Can I move my existing DB instances from inside VPC to outside VPC?
+
+Currently, direct migration of DB Instances from inside to outside VPC is not supported. For security reasons, a DB Snapshot of a DB Instance inside VPC cannot be restored to outside VPC. The same is true with “Restore to Point in Time” functionality. If you need to move your DB Instance from inside to outside VPC, you will need to export your data from your source DB Instance in your VPC to your target DB Instance deployed outside VPC.
+
+Q: What types of replication does Amazon RDS support and when should I use each?
+
+Amazon RDS provides two distinct replication options to serve different purposes.
+
+If you are looking to use replication to increase database availability while protecting your latest database updates against unplanned outages, consider running your DB Instance as a Multi-AZ deployment. When you create or modify your DB Instance to run as a Multi-AZ deployment, Amazon RDS will automatically provision and manage a “standby” replica in a different Availability Zone (independent infrastructure in a physically separate location). In the event of planned database maintenance, DB Instance failure, or an Availability Zone failure, Amazon RDS will automatically failover to the standby so that database operations can resume quickly without administrative intervention. Multi-AZ deployments utilize synchronous replication, making database writes concurrently on both the primary and standby so that the standby will be up-to-date in the event a failover occurs. While our technological implementation for Multi-AZ DB Instances maximizes data durability in failure scenarios, it precludes the standby from being accessed directly or used for read operations. The fault tolerance offered by Multi-AZ deployments make them a natural fit for production environments; to learn more about Multi-AZ deployments, please visit this FAQ section.
+
+Multi-AZ deployments are supported for the MySQL, Oracle, PostgreSQL, and SQL Server database engines. Multi-AZ deployments for SQL Server are presently available in the US East (Northern Virginia), US West (Oregon), and EU (Dublin) AWS Regions.
+
+To help you to scale beyond the capacity constraints of a single DB Instance for read-heavy database workloads, Amazon RDS offers Read Replicas. You can create a Read Replica of a given source DB Instance using the AWS Management Console or the CreateDBInstanceReadReplica API. Once the Read Replica is created, database updates on the source DB Instance will be propagated to the Read Replica. You can create multiple Read Replicas for a given source DB Instance and distribute your application’s read traffic amongst them.
+
+Read Replicas are supported by Amazon RDS for MySQL and PostgreSQL. Unlike Multi-AZ deployments, Read Replicas for these engines use each's built-in replication technology and are subject to its strengths and limitations. In particular, updates are applied to your Read Replica(s) after they occur on the source DB Instance (“asynchronous” replication), and replication lag can vary significantly. This means recent database updates made to a standard (non Multi-AZ) source DB Instance may not be present on associated Read Replicas in the event of an unplanned outage on the source DB Instance. As such, Read Replicas do not offer the same data durability benefits as Multi-AZ deployments. While Read Replicas can provide some read availability benefits, they and are not designed to improve write availability.
+
+You can use Multi-AZ deployments and Read Replicas in conjunction to enjoy the complementary benefits of each. You can simply specify that a given Multi-AZ deployment is the source DB Instance for your Read Replica(s). That way you gain both the data durability and availability benefits of Multi-AZ deployments and the read scaling benefits of Read Replicas.
+
+Q: When running my DB Instance as a Multi-AZ deployment, can I use the standby for read or write operations?
+
+No, the standby replica cannot serve read requests. Multi-AZ deployments are designed to provide enhanced database availability and durability, rather than read scaling benefits. As such, the feature uses synchronous replication between primary and standby. Our implementation makes sure the primary and the standby are constantly in sync, but precludes using the standby for read or write operations. If you are interested in a read scaling solution, please see the FAQs on Read Replicas.
+
+Q: What events would cause Amazon RDS to initiate a failover to the standby replica?
+
+Amazon RDS detects and automatically recovers from the most common failure scenarios for Multi-AZ deployments so that you can resume database operations as quickly as possible without administrative intervention. Amazon RDS automatically performs a failover in the event of any of the following:
+
+    Loss of availability in primary Availability Zone
+    Loss of network connectivity to primary
+    Compute unit failure on primary
+    Storage failure on primary
+
+Note: When operations such as DB Instance scaling or system upgrades like OS patching are initiated for Multi-AZ deployments, for enhanced availability, they are applied first on the standby prior to an automatic failover. As a result, your availability impact is limited only to the time required for automatic failover to complete. Note that Amazon RDS Multi-AZ deployments do not failover automatically in response to database operations such as long running queries, deadlocks or database corruption errors.
+
+Q: How do DB Snapshots and automated backups work with my Multi-AZ deployment?
+
+You interact with automated backup and DB Snapshot functionality in the same way whether you are running a standard deployment in a Single-AZ or Multi-AZ deployment. If you are running a Multi-AZ deployment, automated backups and DB Snapshots are simply taken from the standby to avoid I/O suspension on the primary. Please note that you may experience increased I/O latency (typically lasting a few minutes) during backups for both Single-AZ and Multi-AZ deployments.
+
+Initiating a restore operation (point-in-time restore or restore from DB Snapshot) also works the same with Multi-AZ deployments as standard, Single-AZ deployments. New DB Instance deployments can be created with either the RestoreDBInstanceFromSnapshot or RestoreDBInstanceToPointInTime APIs. These new DB Instance deployments can be either standard or Multi-AZ, regardless of whether the source backup was initiated on a standard or Multi-AZ deployment.
+
+Q: How many Read Replicas can I create for a given source DB Instance?
+
+Amazon RDS for MySQL and PostgreSQL currently allow you to create up to five (5) Read Replicas for a given source DB Instance.
+
+Q: Can I use a Read Replica to enhance database write availability or protect the data on my source DB Instance against failure scenarios?
+
+If you are looking to use replication to increase database write availability and protect recent database updates against various failure conditions, we recommend you run your DB Instance as a Multi-AZ deployment. With Amazon RDS Read Replicas, which employ supported engines' native, asynchronous replication, database writes occur on a Read Replica after they have already occurred on the source DB Instance, and this replication “lag” can vary significantly. In contrast, the replication used by Multi-AZ deployments is synchronous, meaning that all database writes are concurrent on the primary and standby. This protects your latest database updates, since they should be available on the standby in the event a failover is required. In addition, with Multi-AZ deployments replication is fully managed. Amazon RDS automatically monitors for DB Instance failure conditions or Availability Zone failure and initiates automatic failover to the standby if an outage occurs.
+
+#Amazon Route 53 FAQs
